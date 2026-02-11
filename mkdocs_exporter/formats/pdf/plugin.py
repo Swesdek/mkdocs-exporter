@@ -184,7 +184,6 @@ class Plugin(BasePlugin[Config]):
 
     for page in self.pages:
       self.aggregator.append(page.formats['pdf']['path'] + '.aggregate')
-      os.unlink(page.formats['pdf']['path'] + '.aggregate')
 
     self.aggregator.save()
 
