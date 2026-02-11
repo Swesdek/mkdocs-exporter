@@ -188,6 +188,12 @@ class Plugin(BasePlugin[Config]):
 
     self.aggregator.save()
 
+    for page in self.pages:
+      try:
+        os.unlink(page.formats['pdf']['path'] + '.aggregate')
+      except FileNotFoundError:
+        pass
+
 
   @event_priority(-100)
   def _on_post_build_3(self, **kwargs) -> None:
@@ -225,6 +231,9 @@ class Plugin(BasePlugin[Config]):
 
     for index, page in enumerate(self.pages):
       page.index = index
+
+      if not hasattr(page, 'formats'):
+        page.formats = {}
 
 
   def _enabled(self, page: Page = None) -> bool:
